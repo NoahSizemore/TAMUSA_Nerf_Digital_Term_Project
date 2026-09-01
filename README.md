@@ -1,6 +1,6 @@
 <div align="center">
 
-# NAME: TAMUSA Programing Languages Term Project
+# Nerf Digital: TAMUSA Programing Languages Term Project
 
 [![](https://img.shields.io/badge/blue.svg)](link)
 
