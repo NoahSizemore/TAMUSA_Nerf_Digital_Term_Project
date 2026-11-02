@@ -3,7 +3,7 @@ from random import randint, random
 
 
 class NPC(AnimatedSprite):
-    def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
+    def __init__(self, game, path='images/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
                  scale=0.6, shift=0.38, animation_time=180):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.attack_images = self.get_images(self.path + '/attack')
@@ -80,6 +80,8 @@ class NPC(AnimatedSprite):
                 self.pain = True
                 self.health -= self.game.weapon.damage
                 self.check_health()
+                return True
+        return False
 
     def check_health(self):
         if self.health < 1:
@@ -129,7 +131,7 @@ class NPC(AnimatedSprite):
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
 
-        ray_angle = self.theta
+        ray_angle = self.theta + 1e-6
 
         sin_a = math.sin(ray_angle)
         cos_a = math.cos(ray_angle)
@@ -186,22 +188,7 @@ class NPC(AnimatedSprite):
 
     def distance_check(self, player_dist):
         self.player_distance = player_dist
-        print("spotted")
-        bang = False
-        index = 0
-        if not self.game.closest_to_player:
-            self.game.closest_to_player.append(self.player_distance)
-        else:
-            for distance in self.game.closest_to_player:
-                if distance > self.player_distance:
-                    print("added")
-                    self.player_distance = self.game.closest_to_player[index]
-                    bang = True
-                    break
-                index += 1
-            if not bang:
-                print("fadded")
-                self.game.closest_to_player.append(self.player_distance)
+        self.game.closest_to_player.append([self.player_distance, self.ID])
 
     def draw_ray_cast(self):
         pg.draw.circle(self.game.screen, 'red', (100 * self.x, 100 * self.y), 15)
@@ -211,12 +198,12 @@ class NPC(AnimatedSprite):
 
 
 class SoldierNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
+    def __init__(self, game, path='images/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
                  scale=0.6, shift=0.38, animation_time=180):
         super().__init__(game, path, pos, scale, shift, animation_time)
 
 class CacoDemonNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/caco_demon/0.png', pos=(10.5, 6.5),
+    def __init__(self, game, path='images/sprites/npc/caco_demon/0.png', pos=(10.5, 6.5),
                  scale=0.7, shift=0.27, animation_time=250):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.attack_dist = 1.0
@@ -226,7 +213,7 @@ class CacoDemonNPC(NPC):
         self.accuracy = 0.35
 
 class CyberDemonNPC(NPC):
-    def __init__(self, game, path='resources/sprites/npc/cyber_demon/0.png', pos=(11.5, 6.0),
+    def __init__(self, game, path='images/sprites/npc/cyber_demon/0.png', pos=(11.5, 6.0),
                  scale=1.0, shift=0.04, animation_time=210):
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.attack_dist = 6

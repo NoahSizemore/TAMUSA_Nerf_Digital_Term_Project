@@ -5,7 +5,7 @@ class Sound:
     def __init__(self, game):
         self.game = game
         pg.mixer.init()
-        self.path = 'resources/sound/'
+        self.path = 'images/sound/'
         self.shotgun = pg.mixer.Sound(self.path + 'shotgun.wav')
         self.load = pg.mixer.Sound(self.path + 'load.wav')
         self.npc_pain = pg.mixer.Sound(self.path + 'npc_pain.wav')

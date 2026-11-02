@@ -48,13 +48,15 @@ class Player:
                 self.shot = True
                 self.game.weapon.ammo -= 1
                 self.game.weapon.shot_fired = True
+                self.game.closest_to_player = []
                 for npc in self.game.object_handler.npc_list:
                     if npc.alive:
                         npc.ray_cast_value = npc.ray_cast_player_npc()
-                for npc in self.game.object_handler.npc_list:
-                    if npc.player_distance == self.game.closest_to_player[0] and npc.alive:
-                        print("egg")
-                        npc.check_hit_in_npc()
+                self.game.distance_update()
+                npc_by_id = {npc.ID: npc for npc in self.game.object_handler.npc_list}
+                for distance, npc_id in self.game.closest_to_player:
+                    npc = npc_by_id.get(npc_id)
+                    if npc and npc.alive and npc.check_hit_in_npc():
                         break
                 if self.game.weapon.ammo <= 0:
                     self.game.weapon.reloading = True

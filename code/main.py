@@ -71,23 +71,7 @@ class Game:
             self.player.single_fire_event(event)
 
     def distance_update(self):
-        updated_list = []
-        for unit in self.closest_to_player:
-            if not updated_list:
-                updated_list.append(unit)
-            else:
-                index = 0
-                bang = False
-                for add_unit in updated_list:
-                    if unit[0] < add_unit[0]:
-                        updated_list[index] = unit
-                        updated_list[index + 1] = add_unit
-                        bang = True
-                        break
-                    index += 1
-                if not bang:
-                    updated_list.append(unit)
-        self.closest_to_player = updated_list
+        self.closest_to_player.sort(key=lambda unit: unit[0])
 
 
     def run(self):
