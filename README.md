@@ -2,7 +2,7 @@
 
 # Nerf Digital: TAMUSA Programing Languages Term Project
 
-[![](https://img.shields.io/badge/blue.svg)](link)
+![Project](https://img.shields.io/badge/Project-TAMUSA-red)
 
 [Noah Sizemore](https://github.com/NoahSizemore) &nbsp;•&nbsp; [David Hinojosa]()
 
