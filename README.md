@@ -33,3 +33,7 @@ This project is a 3D first person shooter with pathfinding NPCs. The project con
 ## ✨ Key Features
 
 ` # TEMP Once finished, this should be filled out`
+
+## AI Usage Statement
+
+We thoughtfully disclose our use of LLMs. LLMs were used for (i) assisting in improving, debugging, and cleaning author-written code, with all changes verified before implementation; (ii) improving comments in the code to ensure proper readability; (iii) ensuring functionality across multiple machines (e.g., macOS, Linux, Windows); (iv) adjusting grammar and spelling wherever documentation is present; and (v) assisting in ensuring A* was implemented and used properly with verification. LLMs were not used for creating the game, picking the pathfinding, writing the rules for the game (i.e., how it functions, how the NPCs look and interact, how the play looks and interacts, etc.), defining the scope of the project, or other less-major tasks. No LLM output was implemented without verification by the authors.

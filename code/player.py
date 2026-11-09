@@ -58,6 +58,9 @@ class Player:
                     npc = npc_by_id.get(npc_id)
                     if npc and npc.alive and npc.check_hit_in_npc():
                         break
+                # the shot is heard: nearby unaware NPCs get a position to search
+                for npc in self.game.object_handler.npc_list:
+                    npc.alert(self.pos, npc.hearing_range)
                 if self.game.weapon.ammo <= 0:
                     self.game.weapon.reloading = True
             elif self.game.weapon.ammo <= 0:

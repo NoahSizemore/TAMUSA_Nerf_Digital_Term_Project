@@ -34,15 +34,18 @@ class Game:
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
+        # built before the object handler so NPCs can reach the graph on spawn
+        self.pathfinding = PathFinding(self)
         self.object_handler = ObjectHandler(self)
         self.weapon = Weapon(self)
         self.sound = Sound(self)
-        self.pathfinding = PathFinding(self)
         pg.mixer.music.play(-1)
 
     def update(self):
         self.player.update()
         self.raycasting.update()
+        # refresh the cost layer and flow field before the NPCs read them
+        self.pathfinding.update()
         self.object_handler.update()
         self.weapon.update()
         pg.display.flip()

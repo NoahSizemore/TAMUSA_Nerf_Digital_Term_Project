@@ -33,3 +33,28 @@ SCALE = WIDTH // NUM_RAYS
 
 TEXTURE_SIZE = 256
 HALF_TEXTURE_SIZE = TEXTURE_SIZE // 2
+
+# pathfinding
+ASTAR_MAX_EXPANSIONS = 4000     # safety cap on a single A* search
+PATH_REFRESH_MS = 350           # how long a cached path stays valid
+PATH_RETRY_MS = 500             # cooldown after a failed (unreachable) search
+PATH_SMOOTH_LOOKAHEAD = 8       # waypoints considered by line-of-sight smoothing
+FLOW_FIELD_REFRESH_MS = 200     # rebuild cadence for the shared flow field
+FLOW_PATH_LIMIT = 24            # waypoints pulled out of the flow field at a time
+
+# pathfinding cost layer
+CROWD_COST = 3.0                # cost added to a tile an NPC is standing on
+CROWD_SPILL_COST = 1.0          # cost added to the ring around that tile
+DANGER_COST = 2.5               # peak cost inside the cone the player faces
+DANGER_CONE = math.pi / 4       # half-angle of that cone
+DANGER_RANGE = 8                # tiles over which the danger cost falls to zero
+
+# npc perception and behaviour
+NPC_RADIUS = 0.3                # body radius in tiles, used for collision and LOS
+NPC_SIGHT_RANGE = 20            # tiles an NPC can see with clear line of sight
+NPC_HEARING_RANGE = 12          # tiles at which an NPC notices a gunshot
+NPC_SEARCH_DURATION = 6000      # ms an NPC keeps hunting a last known position
+NPC_PATROL_POINTS = 4           # waypoints generated per NPC patrol route
+NPC_PATROL_RADIUS = 6           # tiles around the spawn those waypoints sit in
+NPC_SEARCH_RADIUS = 4           # tiles around the last known position to sweep
+NPC_STUCK_MS = 600              # ms of no progress before pushing past a blocker
