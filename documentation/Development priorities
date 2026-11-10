@@ -1,0 +1,36 @@
+Game plan revised
+
+GUI: 1st priority
+Title screen is needed, game length will decide if we would need a continue function
+
+HUD, looking for a minimalistic type displaying ammo count, health, direction, key items, weapons
+
+Controls should be clunky and kind of slow, to make it harder to react to threats quickly
+
+MAP: 2nd priority
+Only need 1 map to get this project off the ground
+Map choice would include the aforementioned locations, the graveyard, the forest, the mansion, lastly the catacombs. Leaning to graveyard
+
+WEAPONS: 3rd priority
+Shotgun as a starter weapon, hold four shots, deals 120 damage with damage fall off, loads singles and can cancel reload after any shell goes in.
+
+Revolver with 6 shots, deals 80 damage each shot, loads one at a time unless empty, if empty loads with a speed loader to full.
+
+NPC: 4th priority
+Need at least 3 different kinds of enemies
+Most likely Zombie, Ghost, Demon
+
+Need a different style of pathfinding for each NPC
+
+Zombie would be straight towards the pc
+
+Ghost would avoid the players view while approaching, preferring their backside whenever possible
+
+Demon can teleport around, most typically after taking damage
+
+INTERACTIVE ELEMENTS: least important
+Need pickups for health, ammo, and key items
+
+A door or gate of some kind
+
+Enemy spawners
