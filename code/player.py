@@ -49,20 +49,37 @@ class Player:
                 self.game.weapon.ammo -= 1
                 self.game.weapon.shot_fired = True
                 self.game.closest_to_player = []
-                for npc in self.game.object_handler.npc_list:
-                    if npc.alive:
-                        npc.ray_cast_value = npc.ray_cast_player_npc()
-                self.game.distance_update()
-                npc_by_id = {npc.ID: npc for npc in self.game.object_handler.npc_list}
-                for distance, npc_id in self.game.closest_to_player:
-                    npc = npc_by_id.get(npc_id)
-                    if npc and npc.alive and npc.check_hit_in_npc():
-                        break
-                # the shot is heard: nearby unaware NPCs get a position to search
-                for npc in self.game.object_handler.npc_list:
-                    npc.alert(self.pos, npc.hearing_range)
-                if self.game.weapon.ammo <= 0:
-                    self.game.weapon.reloading = True
+                if self.game.weapon.current_weapon == "Shotgun":
+                    self.game.weapon.pellets = 8
+                    for npc in self.game.object_handler.npc_list:
+                        if npc.alive:
+                            npc.ray_cast_value = npc.ray_cast_player_npc()
+                    self.game.distance_update()
+                    npc_by_id = {npc.ID: npc for npc in self.game.object_handler.npc_list}
+                    for distance, npc_id in self.game.closest_to_player:
+                        npc = npc_by_id.get(npc_id)
+                        if npc and npc.alive and npc.check_hit_in_npc():
+                            print("npc atteack")
+                            if self.game.weapon.pellets > 0:
+                                print("Keep going")
+                            else:
+                                print("what")
+                                break
+                        print("Loop")
+                    if self.game.weapon.ammo <= 0:
+                        self.game.weapon.reloading = True
+                else:
+                    for npc in self.game.object_handler.npc_list:
+                        if npc.alive:
+                            npc.ray_cast_value = npc.ray_cast_player_npc()
+                    self.game.distance_update()
+                    npc_by_id = {npc.ID: npc for npc in self.game.object_handler.npc_list}
+                    for distance, npc_id in self.game.closest_to_player:
+                        npc = npc_by_id.get(npc_id)
+                        if npc and npc.alive and npc.check_hit_in_npc():
+                            break
+                    if self.game.weapon.ammo <= 0:
+                        self.game.weapon.reloading = True
             elif self.game.weapon.ammo <= 0:
                 self.game.weapon.reloading = True
 
