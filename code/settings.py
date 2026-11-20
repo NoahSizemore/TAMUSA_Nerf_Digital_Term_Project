@@ -6,6 +6,7 @@ RES = WIDTH, HEIGHT = 1600, 900
 HALF_WIDTH = WIDTH // 2
 HALF_HEIGHT = HEIGHT // 2
 FPS = 0
+RETICLE_SIZE = 64
 
 PLAYER_POS = 1.5, 5  # mini_map
 PLAYER_ANGLE = 0
@@ -48,6 +49,12 @@ CROWD_SPILL_COST = 1.0          # cost added to the ring around that tile
 DANGER_COST = 2.5               # peak cost inside the cone the player faces
 DANGER_CONE = math.pi / 4       # half-angle of that cone
 DANGER_RANGE = 8                # tiles over which the danger cost falls to zero
+
+# weapons
+SHOTGUN_SPREAD = 64             # screen-space px added either side of a target
+                                # when testing a hit; matches the reticle size
+RELOAD_FIRST_SHELL_MS = 650     # delay before the first shell of a reload
+RELOAD_SHELL_MS = 450           # delay between each shell after the first
 
 # npc perception and behaviour
 NPC_RADIUS = 0.3                # body radius in tiles, used for collision and LOS

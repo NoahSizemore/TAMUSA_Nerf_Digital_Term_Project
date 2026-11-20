@@ -42,8 +42,6 @@ class Player:
     def single_fire_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1 and not self.shot and self.game.weapon.ammo > 0 and not self.game.weapon.shot_fired:
-                self.game.weapon.reloading = False
-                self.game.weapon.reload_time = 120
                 self.game.sound.shotgun.play()
                 self.shot = True
                 self.game.weapon.ammo -= 1
@@ -59,15 +57,10 @@ class Player:
                     for distance, npc_id in self.game.closest_to_player:
                         npc = npc_by_id.get(npc_id)
                         if npc and npc.alive and npc.check_hit_in_npc():
-                            print("npc atteack")
-                            if self.game.weapon.pellets > 0:
-                                print("Keep going")
-                            else:
-                                print("what")
+                            if self.game.weapon.pellets <= 0:
                                 break
-                        print("Loop")
                     if self.game.weapon.ammo <= 0:
-                        self.game.weapon.reloading = True
+                        self.game.weapon.begin_reload()
                 else:
                     for npc in self.game.object_handler.npc_list:
                         if npc.alive:
@@ -79,13 +72,12 @@ class Player:
                         if npc and npc.alive and npc.check_hit_in_npc():
                             break
                     if self.game.weapon.ammo <= 0:
-                        self.game.weapon.reloading = True
+                        self.game.weapon.begin_reload()
             elif self.game.weapon.ammo <= 0:
-                self.game.weapon.reloading = True
+                self.game.weapon.begin_reload()
 
     def reload_event(self):
-        self.game.weapon.reloading = True
-        # self.game.weapon.load()
+        self.game.weapon.begin_reload()
 
     def movement(self):
         sin_a = math.sin(self.angle)

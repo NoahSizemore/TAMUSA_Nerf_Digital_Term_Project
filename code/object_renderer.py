@@ -14,15 +14,18 @@ class ObjectRenderer:
         self.digit_images = [self.get_texture(f'images/textures/digits/{i}.png', [self.digit_size] * 2)
                              for i in range(13)]
         self.digits = dict(zip(map(str, range(13)), self.digit_images))
-        self.current_reticle = None
+        self.reticle = self.get_texture('images/sprites/reticle.png', [RETICLE_SIZE] * 2, smooth=True)
+        self.reticle_pos = (HALF_WIDTH - RETICLE_SIZE // 2, HALF_HEIGHT - RETICLE_SIZE // 2)
+        self.hud_bar = pg.image.load('images/sprites/Bar2.png').convert_alpha()
+        self.hud_bar_pos = (0, HEIGHT - self.hud_bar.get_height())
         self.game_over_image = self.get_texture('images/textures/game_over.png', RES)
         self.win_image = self.get_texture('images/textures/win.png', RES)
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
-        self.screen.blit(pg.image.load(self.game.weapon.reticle).convert_alpha(), (772, 450))
-        self.screen.blit(pg.image.load('images/sprites/Bar2.png').convert_alpha(), (0, 760))
+        self.screen.blit(self.reticle, self.reticle_pos)
+        self.screen.blit(self.hud_bar, self.hud_bar_pos)
         self.draw_player_health()
         self.draw_player_ammo()
 
@@ -64,8 +67,10 @@ class ObjectRenderer:
             self.screen.blit(image, pos)
 
     @staticmethod
-    def get_texture(path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
+    def get_texture(path, res=(TEXTURE_SIZE, TEXTURE_SIZE), smooth=False):
         texture = pg.image.load(path).convert_alpha()
+        if smooth:
+            return pg.transform.smoothscale(texture, res)
         return pg.transform.scale(texture, res)
 
     def load_wall_textures(self):

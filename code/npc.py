@@ -45,15 +45,32 @@ class NPC(AnimatedSprite):
             self.y += dy
 
     def movement(self):
-        next_pos = self.game.pathfinding.get_path(self.map_pos, self.game.player.map_pos)
-        next_x, next_y = next_pos
+        """Step one tick along the shared flow field toward the player.
 
-        # pg.draw.rect(self.game.screen, 'blue', (100 * next_x, 100 * next_y, 100, 100))
-        if next_pos not in self.game.object_handler.npc_positions:
-            angle = math.atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
-            dx = math.cos(angle) * self.speed
-            dy = math.sin(angle) * self.speed
-            self.check_wall_collision(dx, dy)
+        The field is rebuilt once per frame in PathFinding.update(), so each NPC
+        only walks it rather than running its own search. Crowding is handled by
+        the cost layer, which prices occupied tiles and their neighbours up, so
+        the pack routes around a blocked corridor instead of stalling in it.
+        """
+        pathfinding = self.game.pathfinding
+
+        path = pathfinding.flow_path(self.map_pos)
+        if path is None:
+            return  # no route to the player at all
+
+        if path:
+            path = pathfinding.smooth_path(self.x, self.y, path, NPC_RADIUS)
+            next_x, next_y = path[0]
+            target_x, target_y = next_x + 0.5, next_y + 0.5
+        else:
+            # Already sharing the player's tile, so there is no next waypoint.
+            # Steer at the player directly rather than standing perfectly still.
+            target_x, target_y = self.game.player.x, self.game.player.y
+
+        angle = math.atan2(target_y - self.y, target_x - self.x)
+        dx = math.cos(angle) * self.speed
+        dy = math.sin(angle) * self.speed
+        self.check_wall_collision(dx, dy)
 
     def attack(self):
         if self.animation_trigger:
@@ -95,9 +112,6 @@ class NPC(AnimatedSprite):
                     else:
                         pellets_hit = randint(1, pellets_left - (nudge + falloff))
                     self.health -= (self.game.weapon.damage - falloff) * pellets_hit
-                    print(f"Hit {self.ID} for {(self.game.weapon.damage - falloff) * pellets_hit}"
-                          f" at a dist of {self.player_distance} with a offcenter of {nudge} and falloff of {falloff}, {pellets_hit} is"
-                          f" the amount of pellets hit and they have {self.health} health left")
                     overkill = 0
                     if not self.check_health():
                         overkill = abs(self.health // self.game.weapon.damage + 12)
@@ -112,6 +126,10 @@ class NPC(AnimatedSprite):
     def check_health(self):
         if self.health < 1:
             self.alive = False
+            # animate_death() owns the sprite from here on, and animate_pain()
+            # is unreachable once alive is False, so clear the flinch now
+            # instead of leaving it set forever.
+            self.pain = False
             self.game.sound.npc_death.play()
             return False
         return True
@@ -150,7 +168,11 @@ class NPC(AnimatedSprite):
 
     def ray_cast_player_npc(self):
         if self.game.player.map_pos == self.map_pos:
-            self.player_distance = 0
+            # Register with closest_to_player exactly like any other visible
+            # NPC. single_fire_event() only ever calls check_hit_in_npc() on
+            # the NPCs in that list, so skipping it here made an enemy
+            # standing on the player's own tile impossible to shoot.
+            self.distance_check(0)
             return True
 
         wall_dist_v, wall_dist_h = 0, 0
