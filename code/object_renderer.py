@@ -14,12 +14,15 @@ class ObjectRenderer:
         self.digit_images = [self.get_texture(f'images/textures/digits/{i}.png', [self.digit_size] * 2)
                              for i in range(13)]
         self.digits = dict(zip(map(str, range(13)), self.digit_images))
+        self.current_reticle = None
         self.game_over_image = self.get_texture('images/textures/game_over.png', RES)
         self.win_image = self.get_texture('images/textures/win.png', RES)
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
+        self.screen.blit(pg.image.load(self.game.weapon.reticle).convert_alpha(), (772, 450))
+        self.screen.blit(pg.image.load('images/sprites/Bar2.png').convert_alpha(), (0, 760))
         self.draw_player_health()
         self.draw_player_ammo()
 
@@ -32,18 +35,18 @@ class ObjectRenderer:
     def draw_player_health(self):
         health = str(self.game.player.health)
         for i, char in enumerate(health):
-            self.screen.blit(self.digits[char], (i * self.digit_size, 0))
-        self.screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 0))
+            self.screen.blit(self.digits[char], (i * self.digit_size, 810))
+        self.screen.blit(self.digits['10'], ((i + 1) * self.digit_size, 810))
 
     def draw_player_ammo(self):
         ammo = str(self.game.weapon.ammo)
         reserve = str(self.game.weapon.reserve)
         for i, char in enumerate(ammo):
-            self.screen.blit(self.digits[char], (i * self.digit_size, 810))
-        self.screen.blit(self.digits['12'], ((i + 1) * self.digit_size, 810))
+            self.screen.blit(self.digits[char], ((i * self.digit_size) + 1150, 810))
+        self.screen.blit(self.digits['12'], (((i + 1) * self.digit_size) + 1150, 810))
         for i, char in enumerate(reserve):
-             self.screen.blit(self.digits[char], ((i + 2) * self.digit_size, 810))
-        self.screen.blit(self.digits['11'], ((i + 3) * self.digit_size, 810))
+             self.screen.blit(self.digits[char], (((i + 2) * self.digit_size) + 1150, 810))
+        self.screen.blit(self.digits['11'], (((i + 3) * self.digit_size) + 1150, 810))
 
     def player_damage(self):
         self.screen.blit(self.blood_screen, (0, 0))
