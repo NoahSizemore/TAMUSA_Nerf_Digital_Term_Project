@@ -2,7 +2,7 @@
 
 # Nerf Digital: TAMUSA Programing Languages Term Project
 
-![Project](https://img.shields.io/badge/Project-TAMUSA-red)
+![Project](https://img.shields.io/badge/Project-TAMUSA-maroon)
 
 [Noah Sizemore](https://github.com/NoahSizemore) &nbsp;•&nbsp; [David Hinojosa]()
 
@@ -22,17 +22,24 @@ This is a project for our Programing Languages class at Texas A&M University-San
 
 This project is a 3D first person shooter with pathfinding NPCs. The project consists of several creative implemntations of code, visuals, and audio. The game can be ran through `main.py` with `requirments.txt` containing all of packages and librairies needed to run the game.
 
-` # TEMP More detail here would be nice`
 
 <div align="center">
-  <img src="https://www.vectorstock.com/royalty-free-vector/tbd-outline-icon-to-be-determined-note-minimal-vector-57615992" width="700" height="650">
+  <img src="images/game_clip.gif" alt="Nerf Digital gameplay clip" width="700">
   <br>
 </div>
 
 
 ## ✨ Key Features
 
-` # TEMP Once finished, this should be filled out`
+The program features the following:
+
+* Walkable 3D enviorment.
+* Shoot-able enemies of three different types.
+* Sounds play upon different interactions.
+* Animations of the enviorment, enemies, player, and HUD models.
+* The enemies possess a weighted A* and Dijkstras pathfinding algorithms.
+* Players are able to shoot multiple enemies simultaniously.
+* A loss screen when the player losses all health.
 
 ## AI Usage Statement
 
