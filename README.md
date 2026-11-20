@@ -24,7 +24,7 @@ This project is a 3D first person shooter with pathfinding NPCs. The project con
 
 
 <div align="center">
-  <img src="images/game_clip.gif" alt="Nerf Digital gameplay clip" width="700">
+  <img src="images/game_clip.gif" alt="Nerf Digital gameplay clip">
   <br>
 </div>
 
